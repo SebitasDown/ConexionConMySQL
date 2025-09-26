@@ -87,6 +87,36 @@ public class CoderModel  implements CRUD {
 
     @Override
     public boolean update(Object obj) {
+
+        // Hacer la conexion la base de datos
+        Connection objConnection = ConfigDB.openConnection();
+        // Convertir el bobjetiiii
+        Coder objCoder = (Coder) obj;
+
+        boolean isUpdate = false;
+        try {
+            String sql = "UPDATE coder SET name = ?, age = ?, clan = ? where id= ?";
+            PreparedStatement objPrepare = objConnection.prepareStatement(sql);
+
+            //Asignar el valor a los parametros de la query
+
+            objPrepare.setString(1, objCoder.getName());
+            objPrepare.setInt(2, objCoder.getAge());
+            objPrepare.setString(3, objCoder.getClan());
+            objPrepare.setInt(4, objCoder.getId());
+
+
+            int result = objPrepare.executeUpdate();
+
+            if (result > 0) {
+                isUpdate = true;
+                JOptionPane.showMessageDialog(null, "El coder fue actualizado exitosamente");
+            }
+        }catch (SQLException error){
+            JOptionPane.showMessageDialog(null, error.getMessage());
+        }
+
+        ConfigDB.closeConnection();
         return false;
     }
 
@@ -124,13 +154,14 @@ public class CoderModel  implements CRUD {
 
     public  Coder findById(int id){
         Connection objConnection = ConfigDB.openConnection();
-        Coder objCoder = new Coder();
+        Coder objCoder = null;
         try {
             String sql = "SELECT * FROM coder where id = ?;";
             PreparedStatement objPrepare = objConnection.prepareStatement(sql);
             objPrepare.setInt(1, id);
             ResultSet objResult = objPrepare.executeQuery();
             if(objResult.next()){
+                objCoder = new Coder();
                 objCoder.setId(objResult.getInt("id"));
                 objCoder.setName(objResult.getString("name"));
                 objCoder.setAge(objResult.getInt("age"));

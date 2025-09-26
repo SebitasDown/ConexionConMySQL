@@ -16,6 +16,8 @@ public class Main {
                     1. create coder
                     2. list coders
                     3. delte for by id coder
+                    4. update coder
+                    5. Leave
                     """);
             if (option == null){
                 break;
@@ -31,8 +33,11 @@ public class Main {
                     CoderController.delte();
                     break;
                 case "4":
+                    CoderController.update();
+                    break;
+                case "5":
                     break;
             }
-        }while (!option.equals("4"));
+        }while (!option.equals("5"));
     }
 }

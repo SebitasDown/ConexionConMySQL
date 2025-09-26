@@ -52,4 +52,26 @@ public class CoderController {
         }
 
     }
+
+    public static void update(){
+        CoderModel coderModel = new CoderModel();
+
+        getAll();
+
+        int idUpdate = Integer.parseInt(JOptionPane.showInputDialog(null, "dame el id del coder: "));
+        Coder objCoder = coderModel.findById((idUpdate));
+        if (objCoder ==  null){
+            JOptionPane.showMessageDialog(null, "El coder no existe");
+
+        }else{
+            String name = JOptionPane.showInputDialog("Nombre: ", objCoder.getName());
+            int age = Integer.parseInt(JOptionPane.showInputDialog("Edad: ", objCoder.getAge()));
+            String clan = JOptionPane.showInputDialog("Clan: ", objCoder.getClan());
+
+            objCoder.setName(name);
+            objCoder.setAge(age);
+            objCoder.setClan(clan);
+            coderModel.update(objCoder);
+        }
+    }
 }
